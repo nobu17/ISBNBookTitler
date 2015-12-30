@@ -1,0 +1,105 @@
+﻿<Window x:Class="ISBNBookTitler.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ISBNBookTitler"
+        mc:Ignorable="d"
+        Title="MainView" Height="500" Width="525">
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding AdornedElement.(Validation.Errors), ElementName=adornedelem}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <AdornedElementPlaceholder x:Name="adornedelem" />
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <prism:InvokeCommandAction Command="{Binding ClosingCommand}" />
+        </i:EventTrigger>
+        <prism:InteractionRequestTrigger SourceObject="{Binding MessageBoxRequest}">
+            <local:DialogAction />
+        </prism:InteractionRequestTrigger>
+        <prism:InteractionRequestTrigger SourceObject="{Binding OpenFileDialogRequest}">
+            <local:OpenFileDialogAction />
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    <Grid IsEnabled="{Binding IsWindowEnabled}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="190"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Opacity="0.4" Background="Black" Visibility="{Binding MaskVisibility}" Panel.ZIndex="9">
+            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">処理を実行中です。</TextBlock>
+        </Grid>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="5">
+            <DockPanel LastChildFill="True">
+                <TextBlock Margin="0,20,0,0"  Background="Azure" Text="Gostscriptのパス" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <Button Margin="5,20,5,0" Command="{Binding GostscriptOpenFileCommand}">参照</Button>
+                <TextBox Height="25" Margin="0,20,0,0" Width="Auto" Text="{Binding IsbnModel.GostscriptPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+            </DockPanel >
+            <DockPanel  LastChildFill="True" >
+                <TextBlock Margin="0,20,0,0" Background="Azure" Text="zbarimgのパス" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <Button Margin="5,20,5,0" Command="{Binding ZbarImgOpenFileCommand}">参照</Button>
+                <TextBox Margin="0,20,0,0" Height="25" Width="Auto" Text="{Binding IsbnModel.ZbarimgPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+            </DockPanel >
+            <DockPanel LastChildFill="True">
+                <TextBlock Margin="0,20,0,0"  Background="Azure" Text="保存ファイル名" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <TextBox Height="25" Margin="0,20,0,0" Width="Auto" Text="{Binding IsbnModel.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+            </DockPanel >
+            <DockPanel LastChildFill="True">
+                <TextBlock Background="AliceBlue">ファイル名ルール:@[t]=本名,@[a]=著者名,@[g]=分類</TextBlock>
+            </DockPanel >
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Background="Azure" Text="読み取りページ数" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <ComboBox Margin="0,0,0,0" DisplayMemberPath="Page" ItemsSource="{
+                    Binding Path=PageItems,
+                    Source={x:Static local:ComboBoxPageCount.PageItems}}"
+                    SelectedValuePath="Page"
+                    SelectedValue="{Binding IsbnModel.PageCount, Mode=TwoWay}"      
+                          ></ComboBox>
+                <TextBlock Margin="20,0,0,0" Background="Azure" Text="読み取りパターン" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <ComboBox Margin="0,0,0,0" DisplayMemberPath="ComboBoxDisplay" ItemsSource="{
+                    Binding Path=PageItems, Source={x:Static local:ComboBoxPageEnum.PageItems}}"
+                    SelectedValuePath="PageMode"
+                    SelectedValue="{Binding IsbnModel.PagePattern, Mode=TwoWay}"></ComboBox>
+
+            </StackPanel>
+        </StackPanel>
+        <DockPanel Grid.Row="1" Grid.Column="0" Background="Pink" Grid.ColumnSpan="2" AllowDrop="True" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <prism:InvokeCommandAction Command="{Binding DropCommand}" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="PreviewDragOver">
+                    <prism:InvokeCommandAction Command="{Binding PreviewDragOverCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">PDFをドラッグ</TextBlock>
+        </DockPanel>
+        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding IsbnModel.ConvertResult}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ファイル名" Binding="{Binding BeforeFileName}"/>
+                <DataGridTextColumn Header="変更後ファイル名" Binding="{Binding AfterFileName}"/>
+                <DataGridTextColumn Header="メッセージ" Binding="{Binding Message}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
