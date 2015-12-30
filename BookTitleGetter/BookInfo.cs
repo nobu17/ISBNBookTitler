@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookTitleGetter
 {
+    /// <summary>
+    /// 書籍情報
+    /// </summary>
     public class BookInfo
     {
         public string Title { get; set; }
