@@ -21,9 +21,10 @@ http://zbar.sourceforge.net/download.html
 (http://www.apache.org/licenses/LICENSE-2.0)
 
 Prism  
-https://compositewpf.codeplex.com/  
+https://github.com/PrismLibrary  
 
 SGMLReader  
 https://github.com/MindTouch/SGMLReader  
+
 
 This software is released under the MIT License, see lisence.txt.
