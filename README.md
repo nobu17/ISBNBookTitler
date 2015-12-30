@@ -4,7 +4,7 @@
 PDFファイルからISBNバーコード画像を読み取り、Webから取得した書籍情報を元にPDFファイルをリネームします。
 主に自炊した本向けのツールです。
 
-##Prepare
+##Preparing
 別途以下のツールをインストールする必要があります。  
 Ghostscript  
 http://www.ghostscript.com/  
