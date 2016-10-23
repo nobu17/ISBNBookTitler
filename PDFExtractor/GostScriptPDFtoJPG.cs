@@ -5,9 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDFExtractor
+namespace FileExtractor
 {
-    public class GostScriptPDFtoJPG : IPDFtoJPG
+    /// <summary>
+    /// GostScriptによる画像抽出
+    /// </summary>
+    public class GostScriptPDFtoJPG : IExtractJPG
     {
         private const int Timeout = 1000000;
 
@@ -20,24 +23,18 @@ namespace PDFExtractor
         /// </summary>
         public string GsExePath { get; set; }
 
-        public void ExtractJpgFromPdf(string file, string outputPath, PageMode mode, int pageCount)
+        public void ExtractJpg(string file, string outputPath, PageMode mode, int pageCount)
         {
             //ページ数の取得
             var page = GetPageCount(file);
             if(page > 0)
             {
-                if(mode == PageMode.Start | mode == PageMode.Both)
+                //開始終了ページの取得
+                var targetPair = PageUtil.GetPagePair(mode, page, pageCount);
+                //取得したページから画像変換処理
+                foreach(var pair in targetPair.Select((x, i) => new { x = x, i = i }))
                 {
-                    var endPage = pageCount > page ? page : pageCount;
-                    ConvertJpg(file, outputPath, 1, endPage, "1_");
-                }
-                if (mode == PageMode.End | mode == PageMode.Both)
-                {
-                    var startPage = page - pageCount;
-                    if(startPage > 0)
-                    {
-                        ConvertJpg(file, outputPath, startPage, page, "2_");
-                    }
+                    ConvertJpg(file, outputPath, pair.x.StartPage, pair.x.EndPage, pair.i.ToString());
                 }
             }
         }

@@ -92,13 +92,14 @@
     </ApplicationDefinition>
     <Compile Include="Action\DialogAction.cs" />
     <Compile Include="Action\OpenDialogAction.cs" />
+    <Compile Include="Data\ComboBoxBookInfoType.cs" />
     <Compile Include="Data\ComboBoxPageCount.cs" />
     <Compile Include="Data\ComboBoxPageEnum.cs" />
     <Compile Include="Data\ConvertInfo.cs" />
     <Compile Include="Data\RenameInfo.cs" />
     <Compile Include="Logic\BookRenameService.cs" />
     <Compile Include="Logic\IBookRenameService.cs" />
-    <Compile Include="Logic\PdfIsbnGetLogic.cs" />
+    <Compile Include="Logic\ExtractAndIsbnGetLogic.cs" />
     <Compile Include="ValidatableBindableBase.cs" />
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -156,9 +157,9 @@
       <Project>{7990e90f-4490-4a2f-a3b3-eea8681201f2}</Project>
       <Name>ISBNGetter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PDFExtractor\PDFExtractor.csproj">
+    <ProjectReference Include="..\PDFExtractor\FileExtractor.csproj">
       <Project>{e009c9e9-3501-4294-bdce-a3df8b4b94f0}</Project>
-      <Name>PDFExtractor</Name>
+      <Name>FileExtractor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

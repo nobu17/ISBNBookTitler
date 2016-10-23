@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISBNBookTitler", "ISBNBookTitler\ISBNBookTitler.csproj", "{CAFE3695-9143-4BF8-96BB-02831FFC5A2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFExtractor", "PDFExtractor\PDFExtractor.csproj", "{E009C9E9-3501-4294-BDCE-A3DF8B4B94F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileExtractor", "PDFExtractor\FileExtractor.csproj", "{E009C9E9-3501-4294-BDCE-A3DF8B4B94F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISBNGetter", "ISBNGetter\ISBNGetter.csproj", "{7990E90F-4490-4A2F-A3B3-EEA8681201F2}"
 EndProject

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
-using PDFExtractor;
+using FileExtractor;
 using ISBNGetter;
 using System.Reflection;
 using System.IO;
@@ -21,10 +21,12 @@ namespace ISBNBookTitler
         /// </summary>
         private const string TempDirPath = @"Temp";
 
-        private PdfIsbnGetLogic _pdfIsbnGet;
+        private ExtractAndIsbnGetLogic _pdfIsbnGet;
+        private ExtractAndIsbnGetLogic _zipIsbnGet;
+
         private IBookRenameService _renameService;
 
-        private List<string> _pdfFiles;
+        private List<string> _convertFiles;
 
         public IsbnBookLogic()
         {
@@ -33,6 +35,7 @@ namespace ISBNBookTitler
             FileName = @"(@[g])[@[a]]@[t]";
             PagePattern = PageMode.Start;
             PageCount = 1;
+            BookInfoGetService = BookInfoGetServiceType.Amazon;
         }
 
         #region prop
@@ -106,6 +109,19 @@ namespace ISBNBookTitler
         }
 
         /// <summary>
+        /// 書籍情報取得サービス
+        /// </summary>
+        private BookInfoGetServiceType _bookInfoGetService;
+        public BookInfoGetServiceType BookInfoGetService
+        {
+            get { return _bookInfoGetService; }
+            set
+            {
+                this.SetProperty(ref this._bookInfoGetService, value);
+            }
+        }
+
+        /// <summary>
         /// 変換結果
         /// </summary>
         private ObservableCollection<ConvertInfo> _convertResult;
@@ -138,10 +154,10 @@ namespace ISBNBookTitler
         /// <returns></returns>
         public bool SetFiles(string[] files)
         {
-            var pdf = files.Where(x => x.EndsWith(".pdf"));
-            if(pdf.Any())
+            var targetFiles = files.Where(x => x.ToLower().EndsWith(".pdf") || x.ToLower().EndsWith(".zip"));
+            if (targetFiles.Any())
             {
-                _pdfFiles = pdf.ToList();
+                _convertFiles = targetFiles.ToList();
                 return true;
             }
             else
@@ -150,6 +166,9 @@ namespace ISBNBookTitler
             }
         }
 
+        /// <summary>
+        /// 変換を実施.結果はConvertResultプロパティに設定
+        /// </summary>
         public void StartConvert()
         {
             var converResult = new ObservableCollection<ConvertInfo>();
@@ -159,26 +178,27 @@ namespace ISBNBookTitler
             //サービスを初期化
             InitService();
             
-            foreach(var pdf in _pdfFiles)
+            foreach(var file in _convertFiles)
             {
                 try
                 {
                     //書籍情報の取得
-                    var bookinfo = _pdfIsbnGet.GetBookInfo(tempDirAct, pdf, PagePattern, PageCount);
+                    var bookinfo = file.EndsWith(".pdf") ?
+                        _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount);
                     //リネーム
                     if (bookinfo != null)
                     {
-                        var res = _renameService.RenameBookFile(pdf, bookinfo, FileName);
+                        var res = _renameService.RenameBookFile(file, bookinfo, FileName);
                         converResult.Add(res);
                     }
                     else
                     {
-                        converResult.Add(new ConvertInfo() { BeforeFileName = pdf, AfterFileName = string.Empty, Message = "書籍情報の取得に失敗" });
+                        converResult.Add(new ConvertInfo() { BeforeFileName = file, AfterFileName = string.Empty, Message = "書籍情報の取得に失敗" });
                     }
                 }
                 catch(Exception e)
                 {
-                    converResult.Add(new ConvertInfo() { BeforeFileName = pdf, AfterFileName = string.Empty, Message = "書籍情報の取得中に例外が発生:" + e.Message });
+                    converResult.Add(new ConvertInfo() { BeforeFileName = file, AfterFileName = string.Empty, Message = "書籍情報の取得中に例外が発生:" + e.Message });
                 }
             }
             ConvertResult = converResult;
@@ -189,6 +209,7 @@ namespace ISBNBookTitler
         /// </summary>
         protected virtual void InitService()
         {
+            //ファイルのリネームサービス
             _renameService = new BookRenameService();
 
             //GostScriptによる画像変換
@@ -197,10 +218,14 @@ namespace ISBNBookTitler
             //zbarによる画像読み込み
             var isbnimage = new IsbnGetFromZBarImage();
             isbnimage.ZBarExePath = ZbarimgPath;
-            //amazonページから本の読み取り
-            var amazon = new AmazonBookInfoGet();
+            //書籍情報取得
+            var bookInfo = ComboBoxBookInfoType.PageItems.FirstOrDefault(x => x.SelectService == BookInfoGetService);
 
-            _pdfIsbnGet = new PdfIsbnGetLogic(pdfconv, isbnimage, amazon);
+            _pdfIsbnGet = new ExtractAndIsbnGetLogic(pdfconv, isbnimage, bookInfo.Service);
+
+            //ZIP解凍
+            var zipExtract = new ZiptoJPG();
+            _zipIsbnGet = new ExtractAndIsbnGetLogic(zipExtract, isbnimage, bookInfo.Service);
         }
 
         /// <summary>

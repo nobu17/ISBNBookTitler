@@ -47,6 +47,8 @@
     <Compile Include="AmazonBookInfoGet.cs" />
     <Compile Include="BookInfo.cs" />
     <Compile Include="IBookTitleGet.cs" />
+    <Compile Include="NationalLibBookInfoGet.cs" />
+    <Compile Include="NdConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

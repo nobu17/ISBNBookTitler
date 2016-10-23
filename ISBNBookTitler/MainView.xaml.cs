@@ -1,6 +1,6 @@
 ﻿using BookTitleGetter;
 using ISBNGetter;
-using PDFExtractor;
+using FileExtractor;
 using System;
 using System.Collections.Generic;
 using System.IO;

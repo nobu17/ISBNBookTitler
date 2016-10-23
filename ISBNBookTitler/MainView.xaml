@@ -50,22 +50,31 @@
             <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">処理を実行中です。</TextBlock>
         </Grid>
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="5">
-            <DockPanel LastChildFill="True">
-                <TextBlock Margin="0,20,0,0"  Background="Azure" Text="Gostscriptのパス" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                <Button Margin="5,20,5,0" Command="{Binding GostscriptOpenFileCommand}">参照</Button>
-                <TextBox Height="25" Margin="0,20,0,0" Width="Auto" Text="{Binding IsbnModel.GostscriptPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+            <DockPanel LastChildFill="True" DockPanel.Dock="Top">
+                <TextBlock Margin="0,5,0,0"  Background="Azure" Text="Gostscriptのパス" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <Button Margin="5,5,5,0" Command="{Binding GostscriptOpenFileCommand}">参照</Button>
+                <TextBox Height="25" Margin="0,5,0,0" Width="Auto" Text="{Binding IsbnModel.GostscriptPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
             </DockPanel >
-            <DockPanel  LastChildFill="True" >
-                <TextBlock Margin="0,20,0,0" Background="Azure" Text="zbarimgのパス" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                <Button Margin="5,20,5,0" Command="{Binding ZbarImgOpenFileCommand}">参照</Button>
-                <TextBox Margin="0,20,0,0" Height="25" Width="Auto" Text="{Binding IsbnModel.ZbarimgPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+            <DockPanel  LastChildFill="True" DockPanel.Dock="Top">
+                <TextBlock Margin="0,5,0,0" Background="Azure" Text="zbarimgのパス" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <Button Margin="5,5,5,0" Command="{Binding ZbarImgOpenFileCommand}">参照</Button>
+                <TextBox Margin="0,5,0,0" Height="25" Width="Auto" Text="{Binding IsbnModel.ZbarimgPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+            </DockPanel >
+            <DockPanel LastChildFill="True" DockPanel.Dock="Top">
+                <TextBlock Margin="0,5,0,0"  Background="Azure" Text="情報取得サービス" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <ComboBox Margin="5,5,0,0" DisplayMemberPath="ComboBoxDisplay" ItemsSource="{
+                    Binding Path=PageItems,
+                    Source={x:Static local:ComboBoxBookInfoType.PageItems}}"
+                    SelectedValuePath="SelectService"
+                    SelectedValue="{Binding IsbnModel.BookInfoGetService, Mode=TwoWay}"      
+                          ></ComboBox>
             </DockPanel >
             <DockPanel LastChildFill="True">
-                <TextBlock Margin="0,20,0,0"  Background="Azure" Text="保存ファイル名" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                <TextBox Height="25" Margin="0,20,0,0" Width="Auto" Text="{Binding IsbnModel.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+                <TextBlock Margin="0,5,0,0"  Background="Azure" Text="保存ファイル名" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <TextBox Height="25" Margin="5,5,0,0" Width="Auto" Text="{Binding IsbnModel.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
             </DockPanel >
             <DockPanel LastChildFill="True">
-                <TextBlock Background="AliceBlue">ファイル名ルール:@[t]=本名,@[a]=著者名,@[g]=分類</TextBlock>
+                <TextBlock Background="AliceBlue" Height="25">ファイル名ルール:@[t]=本名,@[a]=著者名,@[g]=分類</TextBlock>
             </DockPanel >
             <StackPanel Orientation="Horizontal">
                 <TextBlock Background="Azure" Text="読み取りページ数" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>

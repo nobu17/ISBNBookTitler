@@ -10,6 +10,9 @@ using System.Xml.Linq;
 
 namespace BookTitleGetter
 {
+    /// <summary>
+    /// AmazonのHTML情報から書籍情報を取得する
+    /// </summary>
     public class AmazonBookInfoGet : IBookInfoGet
     {
         private const string UrlBase = @"http://www.amazon.co.jp/dp/{0}";
@@ -51,7 +54,7 @@ namespace BookTitleGetter
                             author = splited[1].Trim();
                         }
                     }
-                    else if(str.Count(x => x == '|') == 3)
+                    if (str.Contains("|") && str.Contains("|"))
                     {
                         var splited = str.Split('|');
                         author = splited[1].Trim();

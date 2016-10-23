@@ -1,6 +1,6 @@
 ﻿using BookTitleGetter;
 using ISBNGetter;
-using PDFExtractor;
+using FileExtractor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 namespace ISBNBookTitler
 {
     /// <summary>
-    /// PDFファイルから書籍情報を取得するサービス
+    /// 圧縮ファイルから書籍情報を取得するサービス
     /// </summary>
-    public class PdfIsbnGetLogic
+    public class ExtractAndIsbnGetLogic
     {
-        private readonly IPDFtoJPG _pdfImageService;
+        private readonly IExtractJPG _pdfImageService;
         private readonly IIsbnGetFromJpeg _isbnGetService;
         private readonly IBookInfoGet _bookInfoGetService;
 
-        public PdfIsbnGetLogic(IPDFtoJPG pdfImageService, IIsbnGetFromJpeg isbnGetService, IBookInfoGet bookInfoGetService)
+        public ExtractAndIsbnGetLogic(IExtractJPG pdfImageService, IIsbnGetFromJpeg isbnGetService, IBookInfoGet bookInfoGetService)
         {
             _pdfImageService = pdfImageService;
             _isbnGetService = isbnGetService;
             _bookInfoGetService = bookInfoGetService;
         }
 
-        public PdfIsbnGetLogic() : this (new GostScriptPDFtoJPG(), new IsbnGetFromZBarImage(), new AmazonBookInfoGet())
+        public ExtractAndIsbnGetLogic() : this (new GostScriptPDFtoJPG(), new IsbnGetFromZBarImage(), new AmazonBookInfoGet())
         { }
 
 
@@ -57,9 +57,9 @@ namespace ISBNBookTitler
 
             try
             {
-                //PDFからJPG画像を生成
-                _pdfImageService.ExtractJpgFromPdf(pdfPath, tempDir, mode, pageCount);
-                var jpgs = Directory.GetFiles(tempDir, "*.jpg");
+                //解凍してJPG画像を生成
+                _pdfImageService.ExtractJpg(pdfPath, tempDir, mode, pageCount);
+                var jpgs = Directory.GetFiles(tempDir, "*.jpg" );
                 if(!jpgs.Any())
                 {
                     throw new ArgumentException("画像生成に失敗");

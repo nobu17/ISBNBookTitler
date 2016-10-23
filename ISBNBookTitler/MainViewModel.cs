@@ -91,7 +91,7 @@ namespace ISBNBookTitler
                     }
                 }
             }
-            catch(Exception)
+            catch(Exception e)
             { }
         }
 

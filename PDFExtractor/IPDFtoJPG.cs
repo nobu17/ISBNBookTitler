@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDFExtractor
+namespace FileExtractor
 {
     /// <summary>
-    /// PDFtoJPEGインタフェース
+    /// JPG解凍インタフェース
     /// </summary>
-    public interface IPDFtoJPG
+    public interface IExtractJPG
     {
-        void ExtractJpgFromPdf(string file, string outputPath, PageMode mode, int pageCount);
+        void ExtractJpg(string file, string outputPath, PageMode mode, int pageCount);
     }
 
     /// <summary>
