@@ -184,7 +184,7 @@ namespace ISBNBookTitler
                 {
                     //書籍情報の取得
                     var bookinfo = file.EndsWith(".pdf") ?
-                        _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount);
+                    _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount);
                     //リネーム
                     if (bookinfo != null)
                     {

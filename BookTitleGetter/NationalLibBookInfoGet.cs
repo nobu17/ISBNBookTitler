@@ -38,7 +38,13 @@ namespace BookTitleGetter
 
                 var bookinfo = new BookInfo();
                 bookinfo.Title = ele.Element("title").Value;
-                bookinfo.Author = ele.Element("author").Value;
+
+                try
+                {
+                    bookinfo.Author = ele.Element("author").Value;
+                }
+                catch (Exception) { }
+
                 bookinfo.Publisher = ele.Element(dc + "publisher").Value;
 
                 var ndc = ele.Elements(dc + "subject").FirstOrDefault(x => x.ToString().Contains("dcndl:NDC9"));

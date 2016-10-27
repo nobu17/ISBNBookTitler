@@ -84,9 +84,7 @@ namespace ISBNBookTitler
             finally
             {
                 Directory.Delete(tempDir, true);
-            }
-            return null;
-            
+            }            
         }
 
     }
