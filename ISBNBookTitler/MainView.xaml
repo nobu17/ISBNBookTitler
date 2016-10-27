@@ -101,7 +101,7 @@
                     <prism:InvokeCommandAction Command="{Binding PreviewDragOverCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">PDFをドラッグ</TextBlock>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">PDFまたはZIPをドラッグ</TextBlock>
         </DockPanel>
         <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding IsbnModel.ConvertResult}" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
