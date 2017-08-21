@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using ISBNBookTitler.Data;
 using System.Xml.Serialization;
 using System;
+using Common;
 
 namespace ISBNBookTitler
 {
@@ -36,6 +37,7 @@ namespace ISBNBookTitler
             PagePattern = PageMode.Start;
             PageCount = 1;
             BookInfoGetService = BookInfoGetServiceType.Amazon;
+            ReadFileEncoding = ReadFileEncodingType.UTF_8;
         }
 
         #region prop
@@ -121,6 +123,20 @@ namespace ISBNBookTitler
             }
         }
 
+
+        /// <summary>
+        /// 画像読み込みエンコーディング(ZIP)
+        /// </summary>
+        private ReadFileEncodingType _readFileEncoding;
+        public ReadFileEncodingType ReadFileEncoding
+        {
+            get { return _readFileEncoding; }
+            set
+            {
+                this.SetProperty(ref this._readFileEncoding, value);
+            }
+        }
+
         /// <summary>
         /// 変換結果
         /// </summary>
@@ -184,7 +200,7 @@ namespace ISBNBookTitler
                 {
                     //書籍情報の取得
                     var bookinfo = file.EndsWith(".pdf") ?
-                    _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount);
+                    _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding);
                     //リネーム
                     if (bookinfo != null)
                     {

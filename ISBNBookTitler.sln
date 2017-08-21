@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISBNBookTitler", "ISBNBookTitler\ISBNBookTitler.csproj", "{CAFE3695-9143-4BF8-96BB-02831FFC5A2B}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookTitleGetter", "BookTitleGetter\BookTitleGetter.csproj", "{D0356D15-E653-4127-AA6B-37C60AACFB7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookUtil", "BookUtil\BookUtil.csproj", "{C7F27BCE-79DE-4EFE-93EF-D4E44A3FB4DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{0D24A706-12E1-42BC-8CE0-0D956D2B7BE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{C7F27BCE-79DE-4EFE-93EF-D4E44A3FB4DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7F27BCE-79DE-4EFE-93EF-D4E44A3FB4DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7F27BCE-79DE-4EFE-93EF-D4E44A3FB4DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D24A706-12E1-42BC-8CE0-0D956D2B7BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D24A706-12E1-42BC-8CE0-0D956D2B7BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D24A706-12E1-42BC-8CE0-0D956D2B7BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D24A706-12E1-42BC-8CE0-0D956D2B7BE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

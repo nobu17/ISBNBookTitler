@@ -203,7 +203,7 @@ namespace ISBNBookTitler
                                 var res = _isbnModel.SetFiles(files);
                                 if (!res)
                                 {
-                                    ShowMessage("エラー", "pdfファイルをドラッグしてください。");
+                                    ShowMessage("エラー", "pdf,zipファイルをドラッグしてください。");
                                 }
                                 else
                                 {

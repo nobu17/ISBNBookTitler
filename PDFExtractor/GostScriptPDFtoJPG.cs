@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace FileExtractor
         /// </summary>
         public string GsExePath { get; set; }
 
-        public void ExtractJpg(string file, string outputPath, PageMode mode, int pageCount)
+        public void ExtractJpg(string file, string outputPath, PageMode mode, int pageCount, ReadFileEncodingType encodingMode)
         {
             //ページ数の取得
             var page = GetPageCount(file);

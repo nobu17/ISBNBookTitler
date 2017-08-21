@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 
 namespace ISBNBookTitler
 {
@@ -30,7 +31,7 @@ namespace ISBNBookTitler
         { }
 
 
-        public BookInfo GetBookInfo(string outputPathRoot, string pdfPath, PageMode mode, int pageCount)
+        public BookInfo GetBookInfo(string outputPathRoot, string pdfPath, PageMode mode, int pageCount, ReadFileEncodingType encodingMode)
         {
             //作業フォルダの生成
             var tempDir = Path.Combine(outputPathRoot, DateTime.Now.ToString("yyyyMMddHHmmssfff"));
@@ -58,11 +59,11 @@ namespace ISBNBookTitler
             try
             {
                 //解凍してJPG画像を生成
-                _pdfImageService.ExtractJpg(pdfPath, tempDir, mode, pageCount);
-                var jpgs = Directory.GetFiles(tempDir, "*.jpg" );
-                if(!jpgs.Any())
+                _pdfImageService.ExtractJpg(pdfPath, tempDir, mode, pageCount, encodingMode);
+                var jpgs = Directory.GetFiles(tempDir, "*.*", SearchOption.AllDirectories ).Where(x => ImageUtil.IsImageFile(x));
+                if (!jpgs.Any())
                 {
-                    throw new ArgumentException("画像生成に失敗");
+                    throw new ArgumentException("画像検出に失敗しました。エンコーディング設定を変更してみてください。");
                 }
 
                 //画像からisbnを探索
@@ -75,7 +76,8 @@ namespace ISBNBookTitler
                         return _bookInfoGetService.GetBookInfo(isbn);
                     }
                 }
-                throw new ArgumentException("ISBNの取得に失敗。");
+                throw new ArgumentException("画像からISBNを取得できませんでした。");
+
             }
             catch(Exception e)
             {

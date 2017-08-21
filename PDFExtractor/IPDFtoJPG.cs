@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace FileExtractor
     /// </summary>
     public interface IExtractJPG
     {
-        void ExtractJpg(string file, string outputPath, PageMode mode, int pageCount);
+        void ExtractJpg(string file, string outputPath, PageMode mode, int pageCount, ReadFileEncodingType encodingMode);
     }
 
     /// <summary>

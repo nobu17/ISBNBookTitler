@@ -93,6 +93,7 @@
     <Compile Include="Action\DialogAction.cs" />
     <Compile Include="Action\OpenDialogAction.cs" />
     <Compile Include="Data\ComboBoxBookInfoType.cs" />
+    <Compile Include="Data\ComboBoxEncodingType.cs" />
     <Compile Include="Data\ComboBoxPageCount.cs" />
     <Compile Include="Data\ComboBoxPageEnum.cs" />
     <Compile Include="Data\ConvertInfo.cs" />
@@ -152,6 +153,10 @@
     <ProjectReference Include="..\BookUtil\BookUtil.csproj">
       <Project>{c7f27bce-79de-4efe-93ef-d4e44a3fb4de}</Project>
       <Name>BookUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{0d24a706-12e1-42bc-8ce0-0d956d2b7be5}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\ISBNGetter\ISBNGetter.csproj">
       <Project>{7990e90f-4490-4a2f-a3b3-eea8681201f2}</Project>

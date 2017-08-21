@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ISBNBookTitler"
         mc:Ignorable="d"
-        Title="MainView" Height="500" Width="525">
+        Title="ISBN Book Titler" Height="500" Width="525">
     <Window.Resources>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
@@ -38,7 +38,7 @@
     </i:Interaction.Triggers>
     <Grid IsEnabled="{Binding IsWindowEnabled}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="190"/>
+            <RowDefinition Height="230"/>
             <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -67,6 +67,15 @@
                     Source={x:Static local:ComboBoxBookInfoType.PageItems}}"
                     SelectedValuePath="SelectService"
                     SelectedValue="{Binding IsbnModel.BookInfoGetService, Mode=TwoWay}"      
+                          ></ComboBox>
+            </DockPanel >
+            <DockPanel LastChildFill="True" DockPanel.Dock="Top">
+                <TextBlock Margin="0,5,0,0"  Background="Azure" Text="エンコーディング(Zip)" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <ComboBox Margin="5,5,0,0" DisplayMemberPath="ComboBoxDisplay" ItemsSource="{
+                    Binding Path=PageItems,
+                    Source={x:Static local:ComboBoxEncodingType.PageItems}}"
+                    SelectedValuePath="SelectEncoding"
+                    SelectedValue="{Binding IsbnModel.ReadFileEncoding, Mode=TwoWay}"      
                           ></ComboBox>
             </DockPanel >
             <DockPanel LastChildFill="True">
