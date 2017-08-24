@@ -38,6 +38,7 @@ namespace ISBNBookTitler
             PageCount = 1;
             BookInfoGetService = BookInfoGetServiceType.Amazon;
             ReadFileEncoding = ReadFileEncodingType.UTF_8;
+            DisplayMessageDuringProcess = string.Empty;
         }
 
         #region prop
@@ -150,7 +151,22 @@ namespace ISBNBookTitler
                 this.SetProperty(ref this._convertResult, value);
             }
         }
-        
+
+        /// <summary>
+        /// 処理中の進行メッセージ
+        /// </summary>
+        private string _displayMessageDuringProcess;
+        [XmlIgnore]
+        public string DisplayMessageDuringProcess
+        {
+            get { return _displayMessageDuringProcess; }
+            set
+            {
+                this.SetProperty(ref this._displayMessageDuringProcess, value);
+            }
+        }
+
+
 
         #endregion
 
@@ -193,9 +209,12 @@ namespace ISBNBookTitler
 
             //サービスを初期化
             InitService();
-            
-            foreach(var file in _convertFiles)
+
+            foreach(var perFile in _convertFiles.Select((x, i)=> new { File = x, index = i }))
             {
+                var file = perFile.File;
+                //進捗メッセージを設定
+                DisplayMessageDuringProcess = string.Format("{0}/{1}", perFile.index, _convertFiles.Count());
                 try
                 {
                     //書籍情報の取得
@@ -219,6 +238,8 @@ namespace ISBNBookTitler
             }
             ConvertResult = converResult;
         }
+
+        
         
         /// <summary>
         /// 各種サービスを初期化

@@ -47,7 +47,10 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Opacity="0.4" Background="Black" Visibility="{Binding MaskVisibility}" Panel.ZIndex="9">
-            <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">処理を実行中です。</TextBlock>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">処理を実行中です。</TextBlock>
+                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding IsbnModel.DisplayMessageDuringProcess}"></TextBlock>
+            </StackPanel>
         </Grid>
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Margin="5">
             <DockPanel LastChildFill="True" DockPanel.Dock="Top">
