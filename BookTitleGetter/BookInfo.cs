@@ -15,6 +15,6 @@ namespace BookTitleGetter
         public string Author { get; set; }
         public string Publisher { get; set; }
         public string Genre { get; set; }
-
+        public string Date { get; set; }
     }
 }

@@ -22,7 +22,8 @@ namespace BookTitleGetter
             var title = string.Empty;
             var genre = string.Empty;
             var author = string.Empty;
-
+            var pub = string.Empty;
+            var date = string.Empty;
             //URL用にISBN13をISBN10に変換する
             var isbn10 = BookUtil.IsbnConverter.GetIsbn10FromIsbn13(isbn13);
             //URL整形
@@ -38,7 +39,8 @@ namespace BookTitleGetter
                     title = titlenode.Value.Trim();
                     //ジャンル
                     genre = titlenode.Parent.Descendants("span").Skip(1).First().Value.Trim();
-
+                    //出版年月日
+                    date = titlenode.Parent.Descendants("span").Skip(2).First().Value.Replace("&ndash;", "").Trim();
                 }
                 //著者は変則的なのtitleから取り出す
                 var hedInfo = xml.Descendants("title").FirstOrDefault();
@@ -60,12 +62,26 @@ namespace BookTitleGetter
                         author = splited[1].Trim();
                     }
                 }
+
+                //出版社
+                try
+                {
+                    var detailNodes = xml.Descendants("div").Where(x => (string)x.Attribute("id") == "detail_bullets_id").FirstOrDefault();
+                    var des = ((detailNodes.Elements().Descendants("div").Where(x => (string)x.Attribute("class") == "content").FirstOrDefault()).Descendants("li").FirstOrDefault(x => x.Value.Contains("出版社"))).Value.Replace("出版社:", "").TakeWhile(x => x != '(');
+                    pub = new string(des.ToArray()).Trim();
+                }
+                catch (Exception)
+                {
+                }
+
             }
 
             var bookInfo = new BookInfo();
             bookInfo.Author = author;
             bookInfo.Genre = genre;
             bookInfo.Title = title;
+            bookInfo.Publisher = pub;
+            bookInfo.Date = date;
 
             return bookInfo;
         }
