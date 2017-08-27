@@ -10,7 +10,7 @@ namespace BookTitleGetter
 {
     public class NationalLibBookInfoGet : IBookInfoGet
     {
-        private const string BaseURL = @"http://iss.ndl.go.jp/api/opensearch?isbn={0}&maximumRecords=1";
+        private const string BaseURL = @"http://iss.ndl.go.jp/api/sru?operation=searchRetrieve&version=1.2&maximumRecords=1&query=isbn%20%3d%20%22{0}%22&recordSchema=dcndl_simple";
 
         public BookInfo GetBookInfo(string isbn13)
         {
@@ -19,9 +19,13 @@ namespace BookTitleGetter
             return task.Result;
         }
 
-        private async Task<BookInfo> GetBookInfoAsync(string isbn)
+        private async Task<BookInfo> GetBookInfoAsync(string isbn13)
         {
-            var url = string.Format(BaseURL, isbn);
+            var bookinfo = new BookInfo();
+
+            //URL用にISBN13をISBN10に変換する
+            var isbn10 = BookUtil.IsbnConverter.GetIsbn10FromIsbn13(isbn13);
+            var url = string.Format(BaseURL, isbn10);
 
             var client = new HttpClient();
 
@@ -30,29 +34,39 @@ namespace BookTitleGetter
             {
                 var result = await res.Content.ReadAsStringAsync();
 
-                XNamespace dc = @"http://purl.org/dc/elements/1.1/";
-                XNamespace dcndl = @"http://ndl.go.jp/dcndl/terms/";
-
                 var doc = XDocument.Parse(result);
-                var ele = doc.Elements().FirstOrDefault().Elements("channel").FirstOrDefault().Elements("item").FirstOrDefault();
 
-                var bookinfo = new BookInfo();
-                bookinfo.Title = ele.Element("title").Value;
+                var record = doc.Descendants().Where(x => x.Name.LocalName == "record").FirstOrDefault().Descendants().Where(x => x.Name.LocalName == "recordData").FirstOrDefault();
+
+                bookinfo.Title = record.Descendants().Where(x => x.Name.LocalName == "title").FirstOrDefault().Value;
 
                 try
                 {
-                    bookinfo.Author = ele.Element("author").Value;
+                    bookinfo.Author = record.Descendants().Where(x => x.Name.LocalName == "creator").FirstOrDefault().Value.Replace(" 著", "").Trim();
                 }
                 catch (Exception) { }
 
-                bookinfo.Publisher = ele.Element(dc + "publisher").Value;
-
-                var ndc = ele.Elements(dc + "subject").FirstOrDefault(x => x.ToString().Contains("dcndl:NDC9"));
-                if (ndc != null)
+                try
                 {
-                    //分類名称を取得
-                    bookinfo.Genre = NdcConverter.GetNdcName(ndc.Value);
+                    bookinfo.Publisher = record.Descendants().Where(x => x.Name.LocalName == "publisher").FirstOrDefault().Value.Trim();
                 }
+                catch (Exception) { }
+
+                try
+                {
+                    bookinfo.Date = record.Descendants().Where(x => x.Name.LocalName == "issued").FirstOrDefault().Value.Trim();
+                }
+                catch (Exception) { }
+
+                var cc222 = record.Descendants().Where(x => x.Name.LocalName == "subject" && x.ToString().Contains("dcndl:NDC9")).FirstOrDefault();
+                //ジャンルをNDC9より取り出す
+                try
+                {
+                    var ndlc = record.Descendants().Where(x => x.Name.LocalName == "subject" && x.ToString().Contains("dcndl:NDC9")).FirstOrDefault().Value.Trim();
+                    //頭2桁のみ使用
+                    bookinfo.Genre = NdcConverter.GetNdcName(ndlc);
+                }
+                catch (Exception) { }
 
                 return bookinfo;
             }
