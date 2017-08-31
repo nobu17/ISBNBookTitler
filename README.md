@@ -29,7 +29,7 @@ https://github.com/MindTouch/SGMLReader
 
 このアプリは MIT のライセンスで配布されている成果物を利用しています。    
 
-PDFsharp
+PDFsharp  
 http://www.pdfsharp.net
 
 
