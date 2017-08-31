@@ -35,6 +35,9 @@
         <prism:InteractionRequestTrigger SourceObject="{Binding OpenFileDialogRequest}">
             <local:OpenFileDialogAction />
         </prism:InteractionRequestTrigger>
+        <prism:InteractionRequestTrigger SourceObject="{Binding OpenFileInfoSettingViewRequest}">
+            <local:OpenFileInfoSettingViewAction />
+        </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <Grid IsEnabled="{Binding IsWindowEnabled}">
         <Grid.RowDefinitions>
@@ -82,22 +85,28 @@
                           ></ComboBox>
             </DockPanel >
             <DockPanel LastChildFill="True">
+                <TextBlock Margin="0,5,0,0"  Background="Azure" Text="ファイル名設定等" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                <Button Command="{Binding FileInfoSettingOpenDialogCommand}" Margin="5,5,0,0">
+                    設定
+                </Button>
+            </DockPanel >
+            <!--<DockPanel LastChildFill="True">
                 <TextBlock Margin="0,5,0,0"  Background="Azure" Text="保存ファイル名" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
                 <TextBox Height="25" Margin="5,5,0,0" Width="Auto" Text="{Binding IsbnModel.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="50" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
             </DockPanel >
             <DockPanel LastChildFill="True">
                 <TextBlock Background="AliceBlue" Height="25">ファイル名ルール:@[t]=本名,@[a]=著者名,@[g]=分類</TextBlock>
-            </DockPanel >
+            </DockPanel >-->
             <StackPanel Orientation="Horizontal">
-                <TextBlock Background="Azure" Text="読み取りページ数" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                <ComboBox Margin="0,0,0,0" DisplayMemberPath="Page" ItemsSource="{
+                <TextBlock Background="Azure" Text="読み取りページ数" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                <ComboBox Margin="5,5,0,0" DisplayMemberPath="Page" ItemsSource="{
                     Binding Path=PageItems,
                     Source={x:Static local:ComboBoxPageCount.PageItems}}"
                     SelectedValuePath="Page"
                     SelectedValue="{Binding IsbnModel.PageCount, Mode=TwoWay}"      
                           ></ComboBox>
                 <TextBlock Margin="20,0,0,0" Background="Azure" Text="読み取りパターン" Width="100" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                <ComboBox Margin="0,0,0,0" DisplayMemberPath="ComboBoxDisplay" ItemsSource="{
+                <ComboBox Margin="5,5,0,0" DisplayMemberPath="ComboBoxDisplay" ItemsSource="{
                     Binding Path=PageItems, Source={x:Static local:ComboBoxPageEnum.PageItems}}"
                     SelectedValuePath="PageMode"
                     SelectedValue="{Binding IsbnModel.PagePattern, Mode=TwoWay}"></ComboBox>
@@ -119,6 +128,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ファイル名" Binding="{Binding BeforeFileName}"/>
                 <DataGridTextColumn Header="変更後ファイル名" Binding="{Binding AfterFileName}"/>
+                <DataGridTextColumn Header="リネーム結果" Binding="{Binding IsReNameSuccessString}"/>
+                <DataGridTextColumn Header="ファイル情報設定結果" Binding="{Binding IsFileInfoChangeSuccessString}"/>
                 <DataGridTextColumn Header="メッセージ" Binding="{Binding Message}"/>
             </DataGrid.Columns>
         </DataGrid>

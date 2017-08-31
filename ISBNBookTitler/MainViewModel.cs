@@ -12,6 +12,8 @@ using System.Collections;
 using Microsoft.Practices.Prism.ViewModel;
 using System.Runtime.CompilerServices;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
+using static ISBNBookTitler.OpenFileInfoSettingViewAction;
+using CommonData;
 
 namespace ISBNBookTitler
 {
@@ -27,6 +29,7 @@ namespace ISBNBookTitler
             IsbnModel = isbnModel;
             _messageBoxRequest = new InteractionRequest<Confirmation>();
             _openFileDialogRequest = new InteractionRequest<OpenFileDialogAction.OpenFileDialogActionResult>();
+            _openFileInfoSettingViewRequest = new InteractionRequest<OpenFileInfoSettingViewActionResult>();
         }
 
         public MainViewModel() : this (new IsbnBookLogic())
@@ -34,24 +37,17 @@ namespace ISBNBookTitler
 
         }
 
+        #region prop
+
+        /// <summary>
+        /// ロジック
+        /// </summary>
         private IsbnBookLogic _isbnModel;
 
         public IsbnBookLogic IsbnModel
         {
             get { return _isbnModel; }
             set { this.SetProperty(ref this._isbnModel, value); }
-        }
-
-        private InteractionRequest<OpenFileDialogAction.OpenFileDialogActionResult> _openFileDialogRequest;
-        public IInteractionRequest OpenFileDialogRequest
-        {
-            get { return _openFileDialogRequest; }
-        }
-
-        private InteractionRequest<Confirmation> _messageBoxRequest;
-        public IInteractionRequest MessageBoxRequest
-        {
-            get { return _messageBoxRequest; }
         }
 
         /// <summary>
@@ -73,6 +69,8 @@ namespace ISBNBookTitler
             get { return _isWindowEnabled; }
             set { this.SetProperty(ref this._isWindowEnabled, value); }
         }
+
+        #endregion
 
         #region 画面内用の保存
 
@@ -111,6 +109,29 @@ namespace ISBNBookTitler
         }
 
         #endregion
+
+        #region request
+
+        private InteractionRequest<OpenFileDialogAction.OpenFileDialogActionResult> _openFileDialogRequest;
+        public IInteractionRequest OpenFileDialogRequest
+        {
+            get { return _openFileDialogRequest; }
+        }
+
+        private InteractionRequest<Confirmation> _messageBoxRequest;
+        public IInteractionRequest MessageBoxRequest
+        {
+            get { return _messageBoxRequest; }
+        }
+
+        private InteractionRequest<OpenFileInfoSettingViewActionResult> _openFileInfoSettingViewRequest;
+        public IInteractionRequest OpenFileInfoSettingViewRequest
+        {
+            get { return _openFileInfoSettingViewRequest; }
+        }
+
+        #endregion
+
 
         #region command
 
@@ -187,6 +208,33 @@ namespace ISBNBookTitler
             }
         }
 
+        /// <summary>
+        /// ファイル名設定DLG表示
+        /// </summary>
+        private DelegateCommand _fileInfoSettingOpenDialogCommand;
+        public ICommand FileInfoSettingOpenDialogCommand
+        {
+            get
+            {
+                return this._fileInfoSettingOpenDialogCommand ?? (this._fileInfoSettingOpenDialogCommand = new DelegateCommand(() =>
+                {
+                    _openFileInfoSettingViewRequest.Raise(new OpenFileInfoSettingViewActionResult() { Setting = IsbnModel.FileChangeSetting, FileNameSetting = IsbnModel.FileName },
+                        (res) =>
+                        {
+                            if(res.Setting != null)
+                            {
+                                //別画面の確定情報を反映
+                                IsbnModel.FileChangeSetting = res.Setting;
+                                IsbnModel.FileName = res.FileNameSetting;
+                            }
+                        });
+                }));
+            }
+        }
+
+        /// <summary>
+        /// ファイルのDropイベントコマンド
+        /// </summary>
         private DelegateCommand<DragEventArgs> _dropCommand;
         public ICommand DropCommand
         {
@@ -229,7 +277,9 @@ namespace ISBNBookTitler
             }
         }
 
-
+        /// <summary>
+        /// ドラッグオーバーイベントコマンド
+        /// </summary>
         private DelegateCommand<DragEventArgs> _previewDragOverCommand;
         public ICommand PreviewDragOverCommand
         {

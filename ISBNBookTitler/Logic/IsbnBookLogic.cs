@@ -12,6 +12,8 @@ using ISBNBookTitler.Data;
 using System.Xml.Serialization;
 using System;
 using Common;
+using CommonData;
+using FileInfoChange;
 
 namespace ISBNBookTitler
 {
@@ -26,6 +28,7 @@ namespace ISBNBookTitler
         private ExtractAndIsbnGetLogic _zipIsbnGet;
 
         private IBookRenameService _renameService;
+        private IFileInfoChange _fileInfoChangeService;
 
         private List<string> _convertFiles;
 
@@ -39,6 +42,7 @@ namespace ISBNBookTitler
             BookInfoGetService = BookInfoGetServiceType.Amazon;
             ReadFileEncoding = ReadFileEncodingType.UTF_8;
             DisplayMessageDuringProcess = string.Empty;
+            FileChangeSetting = new WpfPDFFileChangeSetting();
         }
 
         #region prop
@@ -139,6 +143,20 @@ namespace ISBNBookTitler
         }
 
         /// <summary>
+        /// ファイルの命名設定
+        /// </summary>
+        private WpfPDFFileChangeSetting _fileChangeSetting;
+        public WpfPDFFileChangeSetting FileChangeSetting
+        {
+            get { return _fileChangeSetting; }
+            set
+            {
+                this.SetProperty(ref this._fileChangeSetting, value);
+            }
+        }
+
+
+        /// <summary>
         /// 変換結果
         /// </summary>
         private ObservableCollection<ConvertInfo> _convertResult;
@@ -166,8 +184,6 @@ namespace ISBNBookTitler
             }
         }
 
-
-
         #endregion
 
         /// <summary>
@@ -186,7 +202,7 @@ namespace ISBNBookTitler
         /// <returns></returns>
         public bool SetFiles(string[] files)
         {
-            var targetFiles = files.Where(x => x.ToLower().EndsWith(".pdf") || x.ToLower().EndsWith(".zip"));
+            var targetFiles = files.Where(x => FileUtil.IsTargetFile(x));
             if (targetFiles.Any())
             {
                 _convertFiles = targetFiles.ToList();
@@ -218,12 +234,23 @@ namespace ISBNBookTitler
                 try
                 {
                     //書籍情報の取得
-                    var bookinfo = file.EndsWith(".pdf") ?
-                    _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding);
-                    //リネーム
+                    var bookinfo = FileUtil.IsPdfFile(file) ?
+                        _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding);
+                    
                     if (bookinfo != null)
                     {
+                        //リネーム
                         var res = _renameService.RenameBookFile(file, bookinfo, FileName);
+                        //ファイル情報の付与
+                        var res2 = _fileInfoChangeService.ChangeFIleInfo(file, bookinfo, FileChangeSetting.GetChangeSetting());
+
+                        //結果の結合
+                        res.IsFileInfoChangeSuccess = res2.IsSuccess;
+                        if(!string.IsNullOrWhiteSpace(res2.Message))
+                        {
+                            res.Message += " pdfファイル情報の付与に失敗:" + res2.Message;
+                        }
+
                         converResult.Add(res);
                     }
                     else
@@ -248,6 +275,8 @@ namespace ISBNBookTitler
         {
             //ファイルのリネームサービス
             _renameService = new BookRenameService();
+
+            _fileInfoChangeService = new FileInfoChangeService();
 
             //GostScriptによる画像変換
             var pdfconv = new GostScriptPDFtoJPG();

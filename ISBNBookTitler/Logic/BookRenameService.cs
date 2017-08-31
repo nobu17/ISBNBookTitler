@@ -7,6 +7,7 @@ using BookTitleGetter;
 using System.IO;
 using BookUtil;
 using ISBNBookTitler.Data;
+using CommonData;
 
 namespace ISBNBookTitler.Logic
 {
@@ -35,14 +36,14 @@ namespace ISBNBookTitler.Logic
                     }
 
                     File.Move(file, Path.Combine(basedir, repName));
-                    return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message = "成功" };
+                    return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message = "", IsReaNameSuccess = true };
                 }
-                catch(Exception)
+                catch(Exception e)
                 {
-                    return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message ="リネームに失敗しました。" };
+                    return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message =e.ToString() , IsReaNameSuccess = false };
                 }
             }
-            return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message = "失敗" };
+            return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message = "リネーム失敗", IsReaNameSuccess = false };
         }
     }
 }

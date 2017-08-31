@@ -28,29 +28,6 @@ namespace ISBNBookTitler
         {
             InitializeComponent();
             this.DataContext = new MainViewModel();
-            //this.DataContext = new IsbnBookLogic();
-
-            //var outDir = @"C:\Users\nobu17\Music\FILES";
-            //var df = new GostScriptPDFtoJPG();
-            //df.GsExePath = @"C:\Program Files\gs\gs9.18\bin\gswin64c.exe";
-            //df.ExtractJpgFromPdf(@"C:\Program Files\gs\gs9.18\bin\input.pdf", outDir, PageMode.Both, 3);
-
-            //var files = Directory.GetFiles(outDir, "*.jpg");
-            //var isbn = new IsbnGetFromZBarImage();
-            //isbn.ZBarExePath = @"C:\Program Files (x86)\ZBar\bin\zbarimg.exe";
-            //foreach (var file in files)
-            //{
-            //    var re = isbn.GetIsbn(file);
-            //    if(!string.IsNullOrWhiteSpace(re))
-            //    {
-            //        var utl = new AmazonBookInfoGet();
-
-            //        utl.GetBookInfo(re);
-            //    }
-
-            //}
-
-
         }
 
     }

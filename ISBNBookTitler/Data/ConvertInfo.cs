@@ -13,5 +13,37 @@ namespace ISBNBookTitler.Data
         public string AfterFileName { get; set; }
 
         public string Message { get; set; }
+
+        public bool IsReaNameSuccess { get; set; }
+
+        public bool IsFileInfoChangeSuccess { get; set; }
+
+        public string IsReNameSuccessString
+        {
+            get
+            {
+                return GetResultString(IsReaNameSuccess);
+            }
+        }
+
+        public string IsFileInfoChangeSuccessString
+        {
+            get
+            {
+                return GetResultString(IsFileInfoChangeSuccess);
+            }
+        }
+
+        private static string GetResultString(bool isSuccess)
+        {
+            if (isSuccess)
+            {
+                return "成功";
+            }
+            else
+            {
+                return "失敗";
+            }
+        }
     }
 }

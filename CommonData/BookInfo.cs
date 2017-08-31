@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookTitleGetter
+namespace CommonData
 {
     /// <summary>
     /// 書籍情報
