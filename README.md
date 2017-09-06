@@ -30,7 +30,7 @@ https://github.com/MindTouch/SGMLReader
 
 DotNetZip  
 https://github.com/haf/DotNetZip.Semverd
-
+(https://raw.githubusercontent.com/haf/DotNetZip.Semverd/master/LICENSE)
 
 このアプリは MIT のライセンスで配布されている成果物を利用しています。    
 
