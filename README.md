@@ -17,7 +17,7 @@ http://zbar.sourceforge.net/download.html
 
 ##Lisence
 
-このアプリは Apache License, Version 2.0 のライセンスで配布されている成果物を含んでいます。    
+このアプリは Apache License, Version 2.0 のライセンスで配布されている成果物を利用しています。    
 (http://www.apache.org/licenses/LICENSE-2.0)
 
 Prism  
@@ -25,6 +25,12 @@ https://github.com/PrismLibrary
 
 SGMLReader  
 https://github.com/MindTouch/SGMLReader  
+
+
+このアプリは MIT のライセンスで配布されている成果物を利用しています。    
+
+PDFsharp  
+http://www.pdfsharp.net
 
 
 This software is released under the MIT License, see lisence.txt.
