@@ -8,6 +8,7 @@ using System.IO;
 using BookUtil;
 using ISBNBookTitler.Data;
 using CommonData;
+using Common;
 
 namespace ISBNBookTitler.Logic
 {
@@ -34,9 +35,12 @@ namespace ISBNBookTitler.Logic
                     {
                         repName = repName.Replace(ire, '_');
                     }
+                    //重複時にはカウントアップ
+                    var savePath = FileUtil.GetUniqueFilename(Path.Combine(basedir, repName));
+                    repName = Path.GetFileName(savePath);
 
-                    File.Move(file, Path.Combine(basedir, repName));
-                    return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message = "", IsReaNameSuccess = true };
+                    File.Move(file, savePath);
+                    return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message = "", IsReaNameSuccess = true, AfterFullPath = savePath };
                 }
                 catch(Exception e)
                 {
@@ -45,5 +49,6 @@ namespace ISBNBookTitler.Logic
             }
             return new ConvertInfo() { BeforeFileName = file, AfterFileName = repName, Message = "リネーム失敗", IsReaNameSuccess = false };
         }
+
     }
 }

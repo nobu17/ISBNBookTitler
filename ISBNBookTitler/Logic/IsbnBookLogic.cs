@@ -241,15 +241,18 @@ namespace ISBNBookTitler
                     {
                         //リネーム
                         var res = _renameService.RenameBookFile(file, bookinfo, FileName);
-                        //ファイル情報の付与
-                        var res2 = _fileInfoChangeService.ChangeFIleInfo(file, bookinfo, FileChangeSetting.GetChangeSetting());
-
-                        //結果の結合
-                        res.IsFileInfoChangeSuccess = res2.IsSuccess;
-                        if(!string.IsNullOrWhiteSpace(res2.Message))
+                        //リネームに成功したらファイル情報の付与
+                        if(res.IsReaNameSuccess)
                         {
-                            res.Message += " pdfファイル情報の付与に失敗:" + res2.Message;
+                            var res2 = _fileInfoChangeService.ChangeFIleInfo(res.AfterFullPath, bookinfo, FileChangeSetting.GetChangeSetting());
+                            //結果の結合
+                            res.IsFileInfoChangeSuccess = res2.IsSuccess;
+                            if (!string.IsNullOrWhiteSpace(res2.Message))
+                            {
+                                res.Message += " pdfファイル情報の付与に失敗:" + res2.Message;
+                            }
                         }
+    
 
                         converResult.Add(res);
                     }

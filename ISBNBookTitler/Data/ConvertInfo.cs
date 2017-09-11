@@ -12,6 +12,8 @@ namespace ISBNBookTitler.Data
 
         public string AfterFileName { get; set; }
 
+        public string AfterFullPath { get; set; }
+
         public string Message { get; set; }
 
         public bool IsReaNameSuccess { get; set; }
