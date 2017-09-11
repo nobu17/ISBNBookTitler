@@ -26,6 +26,11 @@ https://github.com/PrismLibrary
 SGMLReader  
 https://github.com/MindTouch/SGMLReader  
 
+このアプリは MS-PL のライセンスで配布されている成果物を利用しています。    
+
+DotNetZip  
+https://github.com/haf/DotNetZip.Semverd  
+(https://raw.githubusercontent.com/haf/DotNetZip.Semverd/master/LICENSE)
 
 このアプリは MIT のライセンスで配布されている成果物を利用しています。    
 
