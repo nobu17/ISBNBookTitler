@@ -43,26 +43,17 @@ namespace BookTitleGetter
                     //出版年月日
                     date = titlenode.Parent.Descendants("span").Skip(2).First().Value.Replace("&ndash;", "").Trim();
                 }
-                //著者は変則的なのtitleから取り出す
-                var hedInfo = xml.Descendants("title").FirstOrDefault();
-                if(hedInfo != null)
+
+                try
                 {
-                    var str = hedInfo.Value;
-                    //パターン1
-                    if(str.Contains("：") && str.Contains(":"))
+                    var authnode = xml.Descendants("span").Where(x => ((string)x.Attribute("class")) != null && ((string)x.Attribute("class")).StartsWith("author")).FirstOrDefault();
+                    var auth = authnode.Parent.Descendants("span").Where(x => (string)x.Attribute("class") == "a-size-medium").FirstOrDefault();
+                    if (auth != null)
                     {
-                        var splited = str.Split(':');
-                        if(splited.Count() >= 2)
-                        {
-                            author = splited[1].Trim();
-                        }
-                    }
-                    if (str.Contains("|") && str.Contains("|"))
-                    {
-                        var splited = str.Split('|');
-                        author = splited[1].Trim();
+                        author = ((XText)auth.FirstNode).Value.ToString().Trim();
                     }
                 }
+                catch (Exception) { }
 
                 //出版社
                 try
