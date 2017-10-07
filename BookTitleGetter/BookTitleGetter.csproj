@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,9 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmazonBookInfoGet.cs" />
+    <Compile Include="CCodeConverter.cs" />
     <Compile Include="IBookTitleGet.cs" />
     <Compile Include="NationalLibBookInfoGet.cs" />
     <Compile Include="NdConverter.cs" />
+    <Compile Include="OpenBDBookInfoGet.cs" />
+    <Compile Include="OpenBDData\OpenBDJsonMap.cs" />
+    <Compile Include="OpenBDGenreCodeConverter.cs" />
+    <Compile Include="ProductFormConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

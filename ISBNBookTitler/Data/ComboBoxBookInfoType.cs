@@ -24,8 +24,14 @@ namespace ISBNBookTitler
                 new ComboBoxBookInfoType()
                 {
                     SelectService = BookInfoGetServiceType.Amazon,
-                    ComboBoxDisplay = "Amazon",
+                    ComboBoxDisplay = "Amazon(非推奨)",
                     Service = new AmazonBookInfoGet()
+                },
+                new ComboBoxBookInfoType()
+                {
+                    SelectService = BookInfoGetServiceType.NationalLib,
+                    ComboBoxDisplay = "openBD",
+                    Service = new OpenBDBookInfoGet()
                 },
                 new ComboBoxBookInfoType()
                 {
