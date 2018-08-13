@@ -37,5 +37,9 @@ https://github.com/haf/DotNetZip.Semverd
 PDFsharp  
 http://www.pdfsharp.net
 
+SharpCompress
+https://github.com/adamhathcock/sharpcompress
+
+
 
 This software is released under the MIT License, see lisence.txt.
