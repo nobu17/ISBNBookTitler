@@ -37,7 +37,7 @@ https://github.com/haf/DotNetZip.Semverd
 PDFsharp  
 http://www.pdfsharp.net
 
-SharpCompress
+SharpCompress  
 https://github.com/adamhathcock/sharpcompress
 
 
