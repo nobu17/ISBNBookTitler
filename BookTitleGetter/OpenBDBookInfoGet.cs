@@ -35,7 +35,10 @@ namespace BookTitleGetter
                             if(infoc.Any() && infoc[0] != null)
                             {
                                 //戻り値にマッピング
-                                return GetBookInfoFromHanmatoData(infoc[0]);
+                                var bookInfo = GetBookInfoFromHanmatoData(infoc[0]);
+                                bookInfo.ISBN10 = BookUtil.IsbnConverter.GetIsbn10FromIsbn13(isbn13);
+                                bookInfo.ISBN13 = isbn13;
+                                return bookInfo;
                             }
                         }
                     }

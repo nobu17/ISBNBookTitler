@@ -34,7 +34,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="60"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -100,6 +100,6 @@
             <Button Width="100" Margin="5,0,5,0" Command="{Binding OKCommand}">OK</Button>
             <Button Width="100" Margin="5,0,5,0" Command="{Binding CancelCommand}">Cancel</Button>
         </StackPanel>
-        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding DisplayRule}" Background="AliceBlue" Margin="1,5,1,5"></TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding DisplayRule}" TextWrapping="Wrap" Background="AliceBlue" Margin="1,5,1,5"></TextBlock>
     </Grid>
 </Window>

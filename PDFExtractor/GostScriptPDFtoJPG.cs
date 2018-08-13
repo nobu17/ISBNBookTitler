@@ -20,7 +20,7 @@ namespace FileExtractor
         private const string ConvertJpgCommand = @" -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -dJPEGQ=100 -dQFactor=1.0 -dDisplayFormat=16#30804 -r150 -dFirstPage={0} -dLastPage={1} -sOutputFile=""{2}"" ""{3}""";
 
         /// <summary>
-        /// GostScriptの実行パス
+        /// GostScriptの実行パ
         /// </summary>
         public string GsExePath { get; set; }
 

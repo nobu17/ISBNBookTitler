@@ -74,7 +74,8 @@ namespace BookTitleGetter
             bookInfo.Title = title;
             bookInfo.Publisher = pub;
             bookInfo.Date = date;
-
+            bookInfo.ISBN13 = isbn13;
+            bookInfo.ISBN10 = isbn10;
             return bookInfo;
         }
 

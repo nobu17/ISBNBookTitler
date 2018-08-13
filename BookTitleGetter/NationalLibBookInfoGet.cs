@@ -28,6 +28,9 @@ namespace BookTitleGetter
             var isbn10 = BookUtil.IsbnConverter.GetIsbn10FromIsbn13(isbn13);
             var url = string.Format(BaseURL, isbn10);
 
+            bookinfo.ISBN10 = isbn10;
+            bookinfo.ISBN13 = isbn13;
+
             var client = new HttpClient();
 
             var res = await client.GetAsync(url);

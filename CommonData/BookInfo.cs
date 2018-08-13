@@ -16,5 +16,7 @@ namespace CommonData
         public string Publisher { get; set; }
         public string Genre { get; set; }
         public string Date { get; set; }
+        public string ISBN13 { get; set; }
+        public string ISBN10 { get; set; }
     }
 }
