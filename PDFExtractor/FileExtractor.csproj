@@ -34,6 +34,9 @@
       <HintPath>..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SharpCompress, Version=0.22.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.22.0\lib\net45\SharpCompress.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +50,7 @@
     <Compile Include="GostScriptPDFtoJPG.cs" />
     <Compile Include="IPDFtoJPG.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RarToJPG.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="ZiptoJPG.cs" />
   </ItemGroup>

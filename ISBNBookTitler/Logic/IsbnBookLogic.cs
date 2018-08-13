@@ -24,9 +24,7 @@ namespace ISBNBookTitler
         /// </summary>
         private const string TempDirPath = @"Temp";
 
-        private ExtractAndIsbnGetLogic _pdfIsbnGet;
-        private ExtractAndIsbnGetLogic _zipIsbnGet;
-
+        private IFiledBookInfoGetService _filedBookInfoGetService;
         private IBookRenameService _renameService;
         private IFileInfoChange _fileInfoChangeService;
 
@@ -234,9 +232,8 @@ namespace ISBNBookTitler
                 try
                 {
                     //書籍情報の取得
-                    var bookinfo = FileUtil.IsPdfFile(file) ?
-                        _pdfIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding) : _zipIsbnGet.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding);
-                    
+                    var bookinfo = _filedBookInfoGetService.GetBookInfo(tempDirAct, file, PagePattern, PageCount, ReadFileEncoding);
+                     
                     if (bookinfo != null)
                     {
                         //リネーム
@@ -278,23 +275,16 @@ namespace ISBNBookTitler
         {
             //ファイルのリネームサービス
             _renameService = new BookRenameService();
-
+            //ファイルの情報変更
             _fileInfoChangeService = new FileInfoChangeService();
 
-            //GostScriptによる画像変換
-            var pdfconv = new GostScriptPDFtoJPG();
-            pdfconv.GsExePath = GostscriptPath;
-            //zbarによる画像読み込み
-            var isbnimage = new IsbnGetFromZBarImage();
-            isbnimage.ZBarExePath = ZbarimgPath;
-            //書籍情報取得
-            var bookInfo = ComboBoxBookInfoType.PageItems.FirstOrDefault(x => x.SelectService == BookInfoGetService);
+            //書籍情報取得サービスの選択
+            var bookInfoServ = ComboBoxBookInfoType.PageItems.FirstOrDefault(x => x.SelectService == BookInfoGetService);
 
-            _pdfIsbnGet = new ExtractAndIsbnGetLogic(pdfconv, isbnimage, bookInfo.Service);
+            //ファイルから書籍情報取得サービス
+            _filedBookInfoGetService = new FiledBookInfoGetService();
+            _filedBookInfoGetService.InitService(GostscriptPath, ZbarimgPath, bookInfoServ.Service);
 
-            //ZIP解凍
-            var zipExtract = new ZiptoJPG();
-            _zipIsbnGet = new ExtractAndIsbnGetLogic(zipExtract, isbnimage, bookInfo.Service);
         }
 
         /// <summary>

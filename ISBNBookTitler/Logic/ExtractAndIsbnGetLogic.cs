@@ -17,13 +17,13 @@ namespace ISBNBookTitler
     /// </summary>
     public class ExtractAndIsbnGetLogic
     {
-        private readonly IExtractJPG _pdfImageService;
+        private readonly IExtractJPG _extractImageService;
         private readonly IIsbnGetFromJpeg _isbnGetService;
         private readonly IBookInfoGet _bookInfoGetService;
 
-        public ExtractAndIsbnGetLogic(IExtractJPG pdfImageService, IIsbnGetFromJpeg isbnGetService, IBookInfoGet bookInfoGetService)
+        public ExtractAndIsbnGetLogic(IExtractJPG extractImageService, IIsbnGetFromJpeg isbnGetService, IBookInfoGet bookInfoGetService)
         {
-            _pdfImageService = pdfImageService;
+            _extractImageService = extractImageService;
             _isbnGetService = isbnGetService;
             _bookInfoGetService = bookInfoGetService;
         }
@@ -60,7 +60,7 @@ namespace ISBNBookTitler
             try
             {
                 //解凍してJPG画像を生成
-                _pdfImageService.ExtractJpg(pdfPath, tempDir, mode, pageCount, encodingMode);
+                _extractImageService.ExtractJpg(pdfPath, tempDir, mode, pageCount, encodingMode);
                 var jpgs = Directory.GetFiles(tempDir, "*.*", SearchOption.AllDirectories ).Where(x => ImageUtil.IsImageFile(x));
                 if (!jpgs.Any())
                 {

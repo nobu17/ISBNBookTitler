@@ -35,7 +35,7 @@ namespace FileExtractor
                         foreach (var pair in targetPair.Select((x, i) => new { x = x, i = i }))
                         {
                             //対象のファイルを解凍する
-                            foreach (var img in entries.Skip(pair.x.StartPage).Take((pair.x.EndPage - pair.x.StartPage)))
+                            foreach (var img in entries.Skip(pair.x.StartPage - 1).Take((pair.x.EndPage - (pair.x.StartPage - 1))))
                             {
                                 img.Extract(outputPath, ExtractExistingFileAction.OverwriteSilently);
                             }

@@ -11,6 +11,7 @@ namespace Common
     {
         private const string PDFExtension = ".pdf";
         private const string ZipExtension = ".zip";
+        private const string RarExtension = ".rar";
 
         /// <summary>
         /// PDFファイルかどうか
@@ -37,6 +38,23 @@ namespace Common
         public static bool IsZipFile(string filePath)
         {
             if (filePath.ToLower().EndsWith(ZipExtension))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// RARファイルかどうか
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool IsRarFile(string filePath)
+        {
+            if (filePath.ToLower().EndsWith(RarExtension))
             {
                 return true;
             }

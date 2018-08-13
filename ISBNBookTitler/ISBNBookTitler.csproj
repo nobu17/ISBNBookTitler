@@ -104,7 +104,9 @@
       <DependentUpon>FileInfoSettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileInfoSettingViewModel.cs" />
+    <Compile Include="Logic\FiledBookInfoGetService.cs" />
     <Compile Include="Logic\BookRenameService.cs" />
+    <Compile Include="Logic\IFiledBookInfoGetService.cs" />
     <Compile Include="Logic\IBookRenameService.cs" />
     <Compile Include="Logic\ExtractAndIsbnGetLogic.cs" />
     <Compile Include="ValidatableBindableBase.cs" />

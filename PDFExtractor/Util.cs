@@ -30,7 +30,7 @@ namespace FileExtractor
                 var startPage = maxPage - pageCount;
                 if (startPage > 0)
                 {
-                    pair.Add(new PagePair(startPage, maxPage));
+                    pair.Add(new PagePair(startPage + 1, maxPage));
                 }
             }
 
