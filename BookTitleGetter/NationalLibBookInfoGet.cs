@@ -1,4 +1,5 @@
-﻿using CommonData;
+﻿using Common;
+using CommonData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Xml.Linq;
 
 namespace BookTitleGetter
 {
-    public class NationalLibBookInfoGet : IBookInfoGet
+    public class NationalLibBookInfoGet :　BaseObject, IBookInfoGet
     {
         private const string BaseURL = @"http://iss.ndl.go.jp/api/sru?operation=searchRetrieve&version=1.2&maximumRecords=1&query=isbn%20%3d%20%22{0}%22&recordSchema=dcndl_simple";
 
@@ -48,19 +49,28 @@ namespace BookTitleGetter
                 {
                     bookinfo.Author = record.Descendants().Where(x => x.Name.LocalName == "creator").FirstOrDefault().Value.Replace(" 著", "").Trim();
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    Error(string.Format("国会図書館 解析中例外発生 著者解析中 ISBN13={0}", isbn13), e);
+                }
 
                 try
                 {
                     bookinfo.Publisher = record.Descendants().Where(x => x.Name.LocalName == "publisher").FirstOrDefault().Value.Trim();
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    Error(string.Format("国会図書館 解析中例外発生 出版社解析中 ISBN13={0}", isbn13), e);
+                }
 
                 try
                 {
                     bookinfo.Date = record.Descendants().Where(x => x.Name.LocalName == "issued").FirstOrDefault().Value.Trim();
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    Error(string.Format("国会図書館 解析中例外発生 発行日解析中 ISBN13={0}", isbn13), e);
+                }
 
                 var cc222 = record.Descendants().Where(x => x.Name.LocalName == "subject" && x.ToString().Contains("dcndl:NDC9")).FirstOrDefault();
                 //ジャンルをNDC9より取り出す
@@ -70,7 +80,10 @@ namespace BookTitleGetter
                     //頭2桁のみ使用
                     bookinfo.Genre = NdcConverter.GetNdcName(ndlc);
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    Error(string.Format("国会図書館 解析中例外発生 ジャンル解析中 ISBN113={0}", isbn13), e);
+                }
 
                 return bookinfo;
             }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using LogService;
+using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections;
@@ -14,11 +15,15 @@ namespace ISBNBookTitler
 {
     public class ValidatableBindableBase : BindableBase, INotifyDataErrorInfo
     {
+        private readonly ILogWrite _logger;
+
         private readonly ErrorsContainer<string> Errors;
 
         public ValidatableBindableBase()
         {
             this.Errors = new ErrorsContainer<string>(this.OnErrorsChanged);
+
+            _logger = new NLogService();
         }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -79,5 +84,35 @@ namespace ISBNBookTitler
             }
             return false;
         }
+
+        #region logging
+
+
+        public void Debug(string message)
+        {
+            _logger.Debug(message);
+        }
+
+        public void Error(string message, Exception exception = null)
+        {
+            _logger.Error(message, exception);
+        }
+
+        public void Info(string message)
+        {
+            _logger.Info(message);
+        }
+
+        public void Trace(string message)
+        {
+            _logger.Trace(message);
+        }
+
+        public void Warn(string message)
+        {
+            _logger.Warn(message);
+        }
+
+        #endregion
     }
 }

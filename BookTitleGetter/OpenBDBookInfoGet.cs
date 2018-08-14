@@ -7,13 +7,14 @@ using CommonData;
 using System.Net.Http;
 using BookTitleGetter.OpenBDData;
 using System.Runtime.Serialization.Json;
+using Common;
 
 namespace BookTitleGetter
 {
     /// <summary>
     /// OpenBD APIの書籍情報取得
     /// </summary>
-    public class OpenBDBookInfoGet : IBookInfoGet
+    public class OpenBDBookInfoGet : BaseObject, IBookInfoGet
     {
         private const string UrlBase = @"https://api.openbd.jp/v1/get?isbn={0}";
 
@@ -44,8 +45,11 @@ namespace BookTitleGetter
                     }
 
                 }
-            }catch(Exception)
-            { }
+            }
+            catch (Exception e)
+            {
+                Error(string.Format("OpenBD 解析中例外発生 ISBN13={0}", isbn13), e);
+            }
 
             return null;
         }

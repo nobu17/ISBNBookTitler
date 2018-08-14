@@ -250,7 +250,6 @@ namespace ISBNBookTitler
                             }
                         }
     
-
                         converResult.Add(res);
                     }
                     else
@@ -260,6 +259,7 @@ namespace ISBNBookTitler
                 }
                 catch(Exception e)
                 {
+                    Error(string.Format("変換中に例外が発生 {0}", file), e);
                     converResult.Add(new ConvertInfo() { BeforeFileName = file, AfterFileName = string.Empty, Message = "書籍情報の取得中に例外が発生:" + e.Message });
                 }
             }
@@ -284,7 +284,6 @@ namespace ISBNBookTitler
             //ファイルから書籍情報取得サービス
             _filedBookInfoGetService = new FiledBookInfoGetService();
             _filedBookInfoGetService.InitService(GostscriptPath, ZbarimgPath, bookInfoServ.Service);
-
         }
 
         /// <summary>

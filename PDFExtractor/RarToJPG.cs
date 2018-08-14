@@ -14,14 +14,16 @@ namespace FileExtractor
     /// <summary>
     /// RAR形式の展開
     /// </summary>
-    public class RarToJPG : IExtractJPG
+    public class RarToJPG : BaseObject, IExtractJPG
     {
         public void ExtractJpg(string file, string outputPath, PageMode mode, int pageCount, ReadFileEncodingType encodingMode)
         {
+            Info(string.Format("RAR解凍開始 file={0},outputPath={1}, mode={2}, pageCount={3}, encodingMode={4}", file, outputPath, mode, pageCount, encodingMode));
             //モードに応じたエンコーディング
             var encList = GetEncodingByMode(encodingMode);
             foreach (var enc in encList)
             {
+                Info(string.Format("enc={0}", enc));
                 var option = new ReaderOptions();
                 option.ArchiveEncoding = enc;
                 //解凍
@@ -45,11 +47,14 @@ namespace FileExtractor
                                     ExtractFullPath = false,
                                     Overwrite = true
                                 });
-
                             }
                         }
                         //一度読み込めれば次のエンコードは実施しない
                         break;
+                    }
+                    else
+                    {
+                        Error(string.Format("圧縮ファイル内数が0以下 {0}", count));
                     }
                 }
             }

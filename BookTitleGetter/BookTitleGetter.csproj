@@ -46,14 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmazonBookInfoGet.cs" />
-    <Compile Include="CCodeConverter.cs" />
+    <Compile Include="Util\CCodeConverter.cs" />
     <Compile Include="IBookTitleGet.cs" />
     <Compile Include="NationalLibBookInfoGet.cs" />
-    <Compile Include="NdConverter.cs" />
+    <Compile Include="Util\NdConverter.cs" />
     <Compile Include="OpenBDBookInfoGet.cs" />
     <Compile Include="OpenBDData\OpenBDJsonMap.cs" />
-    <Compile Include="OpenBDGenreCodeConverter.cs" />
-    <Compile Include="ProductFormConverter.cs" />
+    <Compile Include="Util\OpenBDGenreCodeConverter.cs" />
+    <Compile Include="Util\ProductFormConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +64,10 @@
     <ProjectReference Include="..\CommonData\CommonData.csproj">
       <Project>{847f6d4a-17a5-4930-9bd9-bd1f3a9e677b}</Project>
       <Name>CommonData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{0d24a706-12e1-42bc-8ce0-0d956d2b7be5}</Project>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using CommonData;
+﻿using Common;
+using CommonData;
 using Sgml;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace BookTitleGetter
     /// <summary>
     /// AmazonのHTML情報から書籍情報を取得する
     /// </summary>
-    public class AmazonBookInfoGet : IBookInfoGet
+    public class AmazonBookInfoGet : BaseObject, IBookInfoGet
     {
         private const string UrlBase = @"http://www.amazon.co.jp/dp/{0}";
 
@@ -53,7 +54,10 @@ namespace BookTitleGetter
                         author = ((XText)auth.FirstNode).Value.ToString().Trim();
                     }
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    Error(string.Format("Amazon解析中例外発生 著者解析中 ISBN13={0}", isbn13), e);
+                }
 
                 //出版社
                 try
@@ -62,8 +66,9 @@ namespace BookTitleGetter
                     var des = ((detailNodes.Elements().Descendants("div").Where(x => (string)x.Attribute("class") == "content").FirstOrDefault()).Descendants("li").FirstOrDefault(x => x.Value.Contains("出版社"))).Value.Replace("出版社:", "").TakeWhile(x => x != '(');
                     pub = new string(des.ToArray()).Trim();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Error(string.Format("Amazon解析中例外発生 出版社解析中 ISBN13={0}", isbn13), e);
                 }
 
             }
