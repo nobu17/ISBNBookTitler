@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ISBNGetter
 {
-    public class IsbnGetFromZBarImage : IIsbnGetFromJpeg
+    public class IsbnGetFromZBarImage : BaseObject, IIsbnGetFromJpeg
     {
         private const int Timeout = 1000000;
 
@@ -56,6 +57,7 @@ namespace ISBNGetter
             }
             catch (Exception e)
             {
+                Error("zbarimg実行時例外発生", e);
                 return string.Empty;
             }
         }
