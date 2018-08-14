@@ -90,7 +90,9 @@ namespace ISBNBookTitler
                 }
             }
             catch(Exception e)
-            { }
+            {
+                Error("画面定義のロード失敗", e);
+            }
         }
 
         private void Save()
@@ -104,8 +106,10 @@ namespace ISBNBookTitler
                     serializer.Serialize(sw, IsbnModel);
                 }
             }
-            catch (Exception)
-            { }
+            catch (Exception e)
+            {
+                Error("画面定義の保存失敗", e);
+            }
         }
 
         #endregion
