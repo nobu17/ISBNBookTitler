@@ -39,10 +39,18 @@ namespace BookTitleGetter
                 if(titlenode != null)
                 {
                     title = titlenode.Value.Trim();
-                    //ジャンル
-                    genre = titlenode.Parent.Descendants("span").Skip(1).First().Value.Trim();
-                    //出版年月日
-                    date = titlenode.Parent.Descendants("span").Skip(2).First().Value.Replace("&ndash;", "").Trim();
+                    var spans = titlenode.Parent.Descendants("span");
+                    if(spans.Count() > 2)
+                    {
+                        //ジャンル
+                        genre = spans.Skip(1).First().Value.Trim();
+                    }
+
+                    if(spans.Count() > 3)
+                    {
+                        //出版年月日
+                        date = spans.Skip(2).First().Value.Replace("&ndash;", "").Trim();
+                    }
                 }
 
                 try
